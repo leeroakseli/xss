@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8" />
+    <title>XSS Testisivu</title>
+</head>
+<body>
+    <h1>XSS-haavoittuva testisivu</h1>
+
+    <form method="GET">
+        <label>Kirjoita nimesi: <input type="text" name="name" /></label>
+        <button type="submit">Lähetä</button>
+    </form>
+
+    <div id="greeting"></div>
+
+    <script>
+        // Haetaan URL-parametri "name"
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get('name');
+
+        if (name) {
+            // Tulostetaan käyttäjän syöte suoraan ilman suojausta -> XSS-haavoittuvuus
+            document.getElementById('greeting').innerHTML = "Hei, " + name + "!";
+        }
+    </script>
+</body>
+</html>
